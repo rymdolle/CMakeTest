@@ -7,3 +7,4 @@ fi
 cmake -S /src -B . -G "Ninja"
 cmake --build .
 ./HelloCMake
+ctest -V

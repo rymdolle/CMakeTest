@@ -20,3 +20,7 @@ target_link_libraries(${PROJECT_NAME} PRIVATE
 )
 
 add_library(matte lib/matte.cpp)
+
+find_package(GTest CONFIG REQUIRED)
+enable_testing()
+add_subdirectory(test)

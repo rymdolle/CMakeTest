@@ -12,4 +12,11 @@ add_executable(HelloCMake main.cpp)
 
 target_include_directories(${PROJECT_NAME} PUBLIC
   "${PROJECT_BINARY_DIR}"
+  "${PROJECT_SOURCE_DIR}/lib"
 )
+
+target_link_libraries(${PROJECT_NAME} PRIVATE
+  matte
+)
+
+add_library(matte lib/matte.cpp)

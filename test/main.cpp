@@ -2,34 +2,19 @@
 
 #include "matte.h"
 
-class matteTest : public testing::Test {
-protected:
-  matteTest() {
-  }
-
-  ~matteTest() override {
-  }
-
-  void SetUp() override {
-  }
-
-  void TearDown() override {
-  }
-};
-
-TEST_F(matteTest, add) {
+TEST(matteTest, add) {
   EXPECT_EQ(matte::add(4,1), 5);
 }
 
-TEST_F(matteTest, sub) {
+TEST(matteTest, sub) {
   EXPECT_EQ(matte::sub(4,1), 3);
 }
 
-TEST_F(matteTest, mul) {
+TEST(matteTest, mul) {
   EXPECT_EQ(matte::mul(4,1), 4);
 }
 
-TEST_F(matteTest, div) {
+TEST(matteTest, div) {
   EXPECT_EQ(matte::mul(4,1), 4);
 }
 

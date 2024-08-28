@@ -1,9 +1,12 @@
+// -*- c++ -*-
 #ifndef MATTE_H
 #define MATTE_H
 
-int Add(int a, int b);
-int Sub(int a, int b);
-int Mul(int a, int b);
-int Div(int a, int b);
+namespace matte {
+int add(int a, int b);
+int sub(int a, int b);
+int mul(int a, int b);
+int div(int a, int b);
+}; // namespace matte
 
 #endif /* MATTE_H */

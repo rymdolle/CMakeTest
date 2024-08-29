@@ -1,4 +1,9 @@
+#ifndef CONFIG_H
+#define CONFIG_H
+
 #define CMakeTest_VERSION @PROJECT_VERSION@
 #define CMakeTest_VERSION_MAJOR @PROJECT_VERSION_MAJOR@
 #define CMakeTest_VERSION_MINOR @PROJECT_VERSION_MINOR@
 #define CMakeTest_AUTHOR "Olle Mattsson"
+
+#endif /* CONFIG_H */

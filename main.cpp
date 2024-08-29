@@ -7,7 +7,7 @@ int main(int argc, char* argv[]) {
     if (argv[i] == std::string("--version") ||
         argv[i] == std::string("-v")) {
       std::cout << "CMakeTest " << CMakeTest_VERSION << '\n'
-                << "Copyright (C) Olle Mattsson" << '\n'
+                << "Copyright (C) " << CMakeTest_AUTHOR << '\n'
                 << '\n';
       exit(0);
     }

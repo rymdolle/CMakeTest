@@ -2,7 +2,17 @@
 #include "config.h"
 #include "matte.h"
 
-int main() {
+int main(int argc, char* argv[]) {
+  for (int i = 1; i < argc; ++i) {
+    if (argv[i] == std::string("--version") ||
+        argv[i] == std::string("-v")) {
+      std::cout << "CMakeTest " << CMakeTest_VERSION << '\n'
+                << "Copyright (C) Olle Mattsson" << '\n'
+                << '\n';
+      exit(0);
+    }
+  }
+
   std::cout << "Hello, CMake!\n"
             << "Version: " << CMakeTest_VERSION << '\n'
             << "Major:   " << CMakeTest_VERSION_MAJOR << '\n'

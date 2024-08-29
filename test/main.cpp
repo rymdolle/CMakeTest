@@ -1,4 +1,5 @@
 #include <gtest/gtest.h>
+#include <stdexcept>
 
 #include "matte.h"
 
@@ -29,6 +30,7 @@ TEST(matteTest, div) {
   EXPECT_EQ(matte::div(10,5), 2);
   EXPECT_EQ(matte::div(40, -4), -10);
   EXPECT_EQ(matte::div(-40, 10), -4);
+  EXPECT_THROW(matte::div(10, 0), std::invalid_argument);
 }
 
 int main(int argc, char *argv[]) {

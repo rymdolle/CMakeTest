@@ -17,9 +17,11 @@ target_include_directories(${PROJECT_NAME} PUBLIC
 
 target_link_libraries(${PROJECT_NAME} PRIVATE
   matte
+  SensorData
 )
 
 add_library(matte lib/matte.cpp)
+add_library(SensorData lib/SensorData.cpp)
 
 find_package(GTest CONFIG REQUIRED)
 enable_testing()

@@ -1,6 +1,7 @@
 #include <iostream>
 #include "config.h"
 #include "matte.h"
+#include "SensorData.h"
 
 int main(int argc, char* argv[]) {
   for (int i = 1; i < argc; ++i) {
@@ -25,5 +26,13 @@ int main(int argc, char* argv[]) {
             << "Mul(10, 10) = " << matte::mul(10, 10) << '\n'
             << "Div(10, 10) = " << matte::div(10, 10) << '\n'
             << '\n';
+
+  SensorData data;
+  data.addDataPoint(10.0);
+  data.addDataPoint(10.1);
+  data.addDataPoint(10.2);
+
+  std::cout << "Min: " << data.getMin() << '\n';
+  std::cout << "Max: " << data.getMax() << '\n';
   return 0;
 }

@@ -1,4 +1,6 @@
-add_executable(HelloCMakeTest main.cpp)
+add_executable(HelloCMakeTest main.cpp
+  matte_TEST.cpp
+)
 
 target_link_libraries(HelloCMakeTest PRIVATE
   gtest
@@ -12,4 +14,4 @@ target_include_directories(HelloCMakeTest PRIVATE
   ${GTEST_INCLUDE_DIRS}
 )
 
-add_test(NAME HelloCMakeTest COMMAND HelloCMakeTest)
+add_test(NAME matteTest COMMAND HelloCMakeTest)

@@ -20,3 +20,22 @@ steps:
 - script: 'ctest --verbose'
   displayName: 'Run CTest'
   workingDirectory: build
+- task: CopyFiles@2
+  inputs:
+    flattenFolders: true
+    Contents: |
+      build/HelloCMake
+    TargetFolder: '$(Build.ArtifactStagingDirectory)'
+    condition: 'succeeded()'
+- task: CopyFiles@2
+  inputs:
+    flattenFolders: true
+    Contents: |
+      build/Testing/Temporary/LastTest.log
+    TargetFolder: '$(Build.ArtifactStagingDirectory)'
+    condition: 'always()'
+- task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+    ArtifactName: 'drop'
+    publishLocation: 'Container'

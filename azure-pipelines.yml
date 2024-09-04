@@ -1,0 +1,23 @@
+trigger:
+- master
+
+pool:
+  name: default
+  demands: []
+
+stages:
+- stage: Build
+  jobs:
+  - job: Build
+    steps:
+    - checkout: self
+      submodules: true
+      displayName: 'Checkout'
+    - task: CMake@1
+      displayName: 'CMake Configure'
+      inputs:
+        cmakeArgs: '..'
+    - task: CMake@1
+      displayName: 'CMake Release'
+      inputs:
+        cmakeArgs: '--build .'

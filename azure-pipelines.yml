@@ -21,3 +21,19 @@ stages:
       displayName: 'CMake Release'
       inputs:
         cmakeArgs: '--build .'
+- stage: Test
+  dependsOn: Build
+  jobs:
+  - job: Test
+    steps:
+    - task: CMake@1
+      displayName: 'CMake Configure'
+      inputs:
+        cmakeArgs: '..'
+    - task: CMake@1
+      displayName: 'CMake Release'
+      inputs:
+        cmakeArgs: '--build .'
+    - script: 'ctest --verbose'
+      displayName: 'Command CTest'
+      workingDirectory: build

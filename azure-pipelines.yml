@@ -26,10 +26,7 @@ stages:
       inputs:
         SourceFolder: 'build/'
         contents: '**'
-        targetFolder: '$(Build.ArtifactStagingDirectory)'
-    - publish: '$(Build.ArtifactStagingDirectory)'
-      displayName: 'Publish build'
-      artifact: drop
+        targetFolder: '$(Pipeline.Workspace)'
 
 - stage: Test
   dependsOn: Build
@@ -37,20 +34,27 @@ stages:
   - job: Test
     steps:
     - checkout: none
-    - download: current
-      artifact: drop
     - script: |
         ctest -T Test --verbose --output-on-failure
       displayName: 'Run CTest'
-      workingDirectory: 'build'
+      workingDirectory: '$(Pipeline.Workspace)'
+
+- stage: Publish
+  dependsOn:
+  - Build
+  - Test
+  condition: 'always()'
+  jobs:
+  - job: Publish
+    steps:
     - task: CopyFiles@2
       displayName: 'Copy test results'
-      condition: 'failed()'
       inputs:
-        SourceFolder: 'build/'
-        contents: 'Testing/**'
+        SourceFolder: '$(Pipeline.Workspace)'
+        contents: |
+          HelloCMake
+          Testing/**
         targetFolder: '$(Build.ArtifactStagingDirectory)'
     - publish: '$(Build.ArtifactStagingDirectory)'
-      displayName: 'Publish tests'
-      artifact: tests
-      condition: 'failed()'
+      displayName: 'Publish'
+      artifact: drop

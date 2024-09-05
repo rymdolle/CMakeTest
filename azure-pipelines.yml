@@ -9,6 +9,8 @@ stages:
 - stage: Build
   jobs:
   - job: Build
+    workspace:
+      clean: all
     steps:
     - checkout: self
       submodules: true
@@ -26,7 +28,7 @@ stages:
       inputs:
         SourceFolder: 'build/'
         contents: '**'
-        targetFolder: '$(Pipeline.Workspace)'
+        targetFolder: '$(Pipeline.Workspace)/build'
 
 - stage: Test
   dependsOn: Build
@@ -37,7 +39,7 @@ stages:
     - script: |
         ctest -T Test --verbose --output-on-failure
       displayName: 'Run CTest'
-      workingDirectory: '$(Pipeline.Workspace)'
+      workingDirectory: '$(Pipeline.Workspace)/build'
 
 - stage: Publish
   dependsOn:
@@ -50,7 +52,7 @@ stages:
     - task: CopyFiles@2
       displayName: 'Copy test results'
       inputs:
-        SourceFolder: '$(Pipeline.Workspace)'
+        SourceFolder: '$(Pipeline.Workspace)/build'
         contents: |
           HelloCMake
           Testing/**

@@ -3,6 +3,10 @@
 
 #include "matte.h"
 
+TEST(matteTest, assert) {
+  EXPECT_TRUE(true);
+}
+
 TEST(matteTest, add) {
   EXPECT_EQ(matte::add(4,1), 5);
   EXPECT_EQ(matte::add(-1,1), 0);

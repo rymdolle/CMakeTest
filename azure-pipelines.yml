@@ -5,38 +5,52 @@ pool:
   name: default
   demands: []
 
-steps:
-- checkout: self
-  submodules: true
-  displayName: 'Checkout'
-- task: CMake@1
-  displayName: 'CMake Configure'
-  inputs:
-    cmakeArgs: '..'
-- task: CMake@1
-  displayName: 'CMake Release'
-  inputs:
-    cmakeArgs: '--build .'
-- script: 'ctest --verbose'
-  displayName: 'Run CTest'
-  workingDirectory: build
-- task: CopyFiles@2
-  inputs:
-    flattenFolders: true
-    Contents: |
-      build/HelloCMake
-    TargetFolder: '$(Build.ArtifactStagingDirectory)'
-  condition: 'succeeded()'
-- task: CopyFiles@2
-  inputs:
-    flattenFolders: true
-    Contents: |
-      build/Testing/Temporary/LastTest.log
-    TargetFolder: '$(Build.ArtifactStagingDirectory)'
-  condition: 'always()'
-- task: PublishBuildArtifacts@1
-  inputs:
-    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
-    ArtifactName: 'drop'
-    publishLocation: 'Container'
-  condition: 'always()'
+stages:
+- stage: Build
+  jobs:
+  - job: Build
+    steps:
+    - checkout: self
+      submodules: true
+      displayName: 'Checkout'
+    - task: CMake@1
+      displayName: 'CMake Configure'
+      inputs:
+        cmakeArgs: '$(Build.SourcesDirectory)'
+    - task: CMake@1
+      displayName: 'CMake Release'
+      inputs:
+        cmakeArgs: '--build .'
+    - task: CopyFiles@2
+      displayName: 'Copy build'
+      inputs:
+        SourceFolder: 'build/'
+        contents: '**'
+        targetFolder: '$(Build.ArtifactStagingDirectory)'
+    - publish: '$(Build.ArtifactStagingDirectory)'
+      displayName: 'Publish build'
+      artifact: drop
+
+- stage: Test
+  dependsOn: Build
+  jobs:
+  - job: Test
+    steps:
+    - checkout: none
+    - download: current
+      artifact: drop
+    - script: |
+        ctest -T Test --verbose --output-on-failure
+      displayName: 'Run CTest'
+      workingDirectory: 'build'
+    - task: CopyFiles@2
+      displayName: 'Copy test results'
+      condition: 'failed()'
+      inputs:
+        SourceFolder: 'build/'
+        contents: 'Testing/**'
+        targetFolder: '$(Build.ArtifactStagingDirectory)'
+    - publish: '$(Build.ArtifactStagingDirectory)'
+      displayName: 'Publish tests'
+      artifact: tests
+      condition: 'failed()'

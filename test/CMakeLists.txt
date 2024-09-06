@@ -16,4 +16,4 @@ target_include_directories(HelloCMakeTest PRIVATE
   ${GTEST_INCLUDE_DIRS}
 )
 
-add_test(NAME HelloCMakeTest COMMAND HelloCMakeTest)
+add_test(NAME HelloCMakeTest COMMAND HelloCMakeTest --gtest_output=xml:HelloCMakeTest.xml)

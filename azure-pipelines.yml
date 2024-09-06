@@ -37,15 +37,18 @@ stages:
     steps:
     - checkout: none
     - script: |
-        ctest -T Test --verbose --output-on-failure
+        ctest --verbose
       displayName: 'Run CTest'
       workingDirectory: '$(Pipeline.Workspace)/build'
+    - task: PublishTestResults@2
+      condition: 'succeededOrFailed()'
+      inputs:
+        testResultsFiles: |
+          $(Pipeline.Workspace)/build/test/*.xml
+        testRunTitle: 'GoogleTest Results'
 
 - stage: Publish
-  dependsOn:
-  - Build
-  - Test
-  condition: 'always()'
+  dependsOn: Test
   jobs:
   - job: Publish
     steps:
@@ -55,7 +58,6 @@ stages:
         SourceFolder: '$(Pipeline.Workspace)/build'
         contents: |
           HelloCMake
-          Testing/**
         targetFolder: '$(Build.ArtifactStagingDirectory)'
     - publish: '$(Build.ArtifactStagingDirectory)'
       displayName: 'Publish'

@@ -52,8 +52,9 @@ stages:
   jobs:
   - job: Publish
     steps:
+    - checkout: none
     - task: CopyFiles@2
-      displayName: 'Copy test results'
+      displayName: 'Copy artifacts'
       inputs:
         SourceFolder: '$(Pipeline.Workspace)/build'
         contents: |

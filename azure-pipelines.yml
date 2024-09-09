@@ -53,12 +53,16 @@ stages:
   - job: Publish
     steps:
     - checkout: none
+    - script: |
+        tar zcf "HelloCMake-$(cat version.txt).tar.gz" HelloCMake libSensorData.so
+      workingDirectory: '$(Pipeline.Workspace)/build'
+      displayName: Compress
     - task: CopyFiles@2
       displayName: 'Copy artifacts'
       inputs:
         SourceFolder: '$(Pipeline.Workspace)/build'
         contents: |
-          HelloCMake
+          HelloCMake-*.tar.gz
         targetFolder: '$(Build.ArtifactStagingDirectory)'
     - publish: '$(Build.ArtifactStagingDirectory)'
       displayName: 'Publish'

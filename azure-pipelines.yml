@@ -12,23 +12,14 @@ stages:
     workspace:
       clean: all
     steps:
-    - checkout: self
-      submodules: true
-      displayName: 'Checkout'
     - task: CMake@1
       displayName: 'CMake Configure'
       inputs:
-        cmakeArgs: '$(Build.SourcesDirectory)'
+        cmakeArgs: '-S $(Build.SourcesDirectory) -B $(Pipeline.Workspace)/build'
     - task: CMake@1
-      displayName: 'CMake Release'
+      displayName: 'CMake Build'
       inputs:
-        cmakeArgs: '--build .'
-    - task: CopyFiles@2
-      displayName: 'Copy build'
-      inputs:
-        SourceFolder: 'build/'
-        contents: '**'
-        targetFolder: '$(Pipeline.Workspace)/build'
+        cmakeArgs: '--build $(Pipeline.Workspace)/build'
 
 - stage: Test
   dependsOn: Build
@@ -36,10 +27,10 @@ stages:
   - job: Test
     steps:
     - checkout: none
-    - script: |
-        ctest --verbose
-      displayName: 'Run CTest'
-      workingDirectory: '$(Pipeline.Workspace)/build'
+    - task: CMake@1
+      displayName: 'CMake Run Tests'
+      inputs:
+        cmakeArgs: '--build $(Pipeline.Workspace)/build --target test'
     - task: PublishTestResults@2
       condition: 'succeededOrFailed()'
       inputs:

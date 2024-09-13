@@ -53,8 +53,10 @@ stages:
       parameters:
         displayName: 'Publish Start time'
     - checkout: none
-    - script: |
-        tar zcf "$(Build.ArtifactStagingDirectory)/HelloCMake-$(cat version.txt).tar.gz" HelloCMake libSensorData.so
+    - script: >
+        tar zcf "$(Build.ArtifactStagingDirectory)/HelloCMake-$(cat version.txt).tar.gz"
+        HelloCMake
+        libSensorData.so
       workingDirectory: '$(Pipeline.Workspace)/build'
       displayName: Compress
     - publish: '$(Build.ArtifactStagingDirectory)'

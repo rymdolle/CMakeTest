@@ -1,0 +1,8 @@
+parameters:
+- name: displayName
+  default: 'Print date'
+
+steps:
+- script: |
+    date --utc --rfc-3339=ns
+  displayName: ${{ parameters.displayName }}

@@ -12,6 +12,9 @@ stages:
     workspace:
       clean: all
     steps:
+    - template: templates/print-date.yml
+      parameters:
+        displayName: 'Build Start time'
     - task: CMake@1
       displayName: 'CMake Configure'
       inputs:
@@ -26,6 +29,9 @@ stages:
   jobs:
   - job: Test
     steps:
+    - template: templates/print-date.yml
+      parameters:
+        displayName: 'Test Start time'
     - checkout: none
     - task: CMake@1
       displayName: 'CMake Run Tests'
@@ -43,6 +49,9 @@ stages:
   jobs:
   - job: Publish
     steps:
+    - template: templates/print-date.yml
+      parameters:
+        displayName: 'Publish Start time'
     - checkout: none
     - script: |
         tar zcf "$(Build.ArtifactStagingDirectory)/HelloCMake-$(cat version.txt).tar.gz" HelloCMake libSensorData.so

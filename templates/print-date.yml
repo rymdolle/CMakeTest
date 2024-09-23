@@ -4,5 +4,6 @@ parameters:
 
 steps:
 - script: |
-    date --utc --rfc-3339=ns
+    #date --utc --rfc-3339=ns
+    date -u -R
   displayName: ${{ parameters.displayName }}

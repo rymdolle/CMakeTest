@@ -43,6 +43,11 @@ stages:
         testResultsFiles: |
           $(Pipeline.Workspace)/build/test/*.xml
         testRunTitle: 'GoogleTest Results'
+    - script: >-
+        cppcheck
+        --project=$(Pipeline.Workspace)/build/compile_commands.json
+        --error-exitcode=1
+      displayName: CppCheck
 
 - stage: Publish
   dependsOn: Test
@@ -53,7 +58,7 @@ stages:
       parameters:
         displayName: 'Publish Start time'
     - checkout: none
-    - script: >
+    - script: >-
         tar zcf "$(Build.ArtifactStagingDirectory)/HelloCMake-$(cat version.txt).tar.gz"
         HelloCMake
         libSensorData.so

@@ -47,6 +47,7 @@ stages:
         cppcheck
         --project=$(Pipeline.Workspace)/build/compile_commands.json
         --error-exitcode=1
+        -i$(Pipeline.Workspace)/build/_deps
       displayName: CppCheck
 
 - stage: Publish

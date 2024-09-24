@@ -3,7 +3,7 @@ WORKDIR /build
 
 # Install deps
 RUN apk update
-RUN apk add --no-cache bash git cmake ninja g++ gtest-dev
+RUN apk add --no-cache bash git cmake ninja g++ gtest-dev cppcheck
 
 # Create build script
 COPY ./run.sh /build/run.sh

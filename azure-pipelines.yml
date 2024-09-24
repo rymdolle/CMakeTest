@@ -28,7 +28,11 @@ stages:
   dependsOn: Build
   jobs:
   - job: Test
+    variables:
+    - name: START
     steps:
+    - script: echo "##vso[task.setvariable variable=START]$(date +%s)"
+      displayName: 'Set job start time'
     - template: templates/print-date.yml
       parameters:
         displayName: 'Test Start time'
@@ -49,6 +53,9 @@ stages:
         --error-exitcode=1
         -i$(Pipeline.Workspace)/build/_deps
       displayName: CppCheck
+    - template: templates/duration.yml
+      parameters:
+        start: $(START)
 
 - stage: Publish
   dependsOn: Test

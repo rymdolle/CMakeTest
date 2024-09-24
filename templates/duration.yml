@@ -1,0 +1,9 @@
+parameters:
+- name: displayName
+  default: 'Duration'
+- name: start
+
+steps:
+- script: |
+    echo Duration: $(($(date +%s) - ${{ parameters.start }}))
+  displayName: ${{ parameters.displayName }}

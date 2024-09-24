@@ -8,3 +8,4 @@ cmake -S /src -B . -G "Ninja"
 cmake --build .
 ./HelloCMake
 ctest -V
+cppcheck --project=compile_commands.json --error-exitcode=1 -i_deps
